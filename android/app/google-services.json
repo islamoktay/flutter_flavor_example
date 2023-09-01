@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "821853266653",
+    "project_id": "ahmetislam-flutter-flavor",
+    "storage_bucket": "ahmetislam-flutter-flavor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:821853266653:android:1bff5f381dc8b523a5b134",
+        "android_client_info": {
+          "package_name": "com.ahmetislam.flutterFlavorExample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "821853266653-hn0oisoabegqp930taups8jvocpdjtfl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPLyH8RsjZYrwdOG90N6uIHFmQ715rUO4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "821853266653-hn0oisoabegqp930taups8jvocpdjtfl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "821853266653-vsr77cveuuagb9u17pgjij7pfqm5fosd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ahmetislam.flutterFlavorExample"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
