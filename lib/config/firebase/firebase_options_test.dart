@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart'
 ///
 /// Example:
 /// ```dart
-/// import 'firebase_options.dart';
+/// import 'firebase_options_test.dart';
 /// // ...
 /// await Firebase.initializeApp(
 ///   options: DefaultFirebaseOptions.currentPlatform,
@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAPLyH8RsjZYrwdOG90N6uIHFmQ715rUO4',
-    appId: '1:821853266653:android:1bff5f381dc8b523a5b134',
+    appId: '1:821853266653:android:22fa27f8b79e0136a5b134',
     messagingSenderId: '821853266653',
     projectId: 'ahmetislam-flutter-flavor',
     storageBucket: 'ahmetislam-flutter-flavor.appspot.com',
@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyB3iUQNecNH4ddOw3_y2W3f4Wm0pml_798',
-    appId: '1:821853266653:ios:ddd3f097ad99335ea5b134',
+    appId: '1:821853266653:ios:55a21afb0e192d4ea5b134',
     messagingSenderId: '821853266653',
     projectId: 'ahmetislam-flutter-flavor',
     storageBucket: 'ahmetislam-flutter-flavor.appspot.com',
-    iosClientId: '821853266653-vsr77cveuuagb9u17pgjij7pfqm5fosd.apps.googleusercontent.com',
-    iosBundleId: 'com.ahmetislam.flutterFlavorExample',
+    iosClientId: '821853266653-0kjhq1obes2ga1iib1cc6r7ks3r3h1du.apps.googleusercontent.com',
+    iosBundleId: 'com.ahmetislam.flutterFlavorExample.utest',
   );
 }

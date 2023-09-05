@@ -14,3 +14,22 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+flutterfire config \
+  --project=ahmetislam-flutter-flavor \
+  --out=lib/firebase/firebase_options_dev.dart \
+  --ios-bundle-id=com.ahmetislam.flutterFlavorExample.dev \
+  --android-app-id=com.ahmetislam.flutterFlavorExample.dev
+
+flutterfire config \
+  --project=ahmetislam-flutter-flavor \
+  --out=lib/firebase/firebase_options_test.dart \
+  --ios-bundle-id=com.ahmetislam.flutterFlavorExample.utest \
+  --android-app-id=com.ahmetislam.flutterFlavorExample.utest
+
+flutterfire config \
+  --project=ahmetislam-flutter-flavor \
+  --out=lib/firebase/firebase_options_prod.dart \
+  --ios-bundle-id=com.ahmetislam.flutterFlavorExample \
+  --android-app-id=com.ahmetislam.flutterFlavorExample
