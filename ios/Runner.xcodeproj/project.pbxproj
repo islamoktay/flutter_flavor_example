@@ -268,11 +268,11 @@
 				9740EEB61CF901F6004384FC /* Run Script */,
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
+				A4B6D2AB2AA5C11A00C91885 /* Config GoogleService-Info.plist */,
 				97C146EC1CF9000F007C117D /* Resources */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				233831410C042ABE42EB4098 /* [CP] Embed Pods Frameworks */,
-				A4B6D2AB2AA5C11A00C91885 /* Config GoogleService-Info.plist */,
 			);
 			buildRules = (
 			);

@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_config/flutter_config.dart';
 
@@ -11,8 +14,11 @@ import 'package:flutter_flavor_example/config/firebase/firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables();
-  final curEnv = getEnvironment(FlutterConfig.get(EnvKeys.environment));
+  final envKey = FlutterConfig.get(EnvKeys.environment);
+  log('envKey: $envKey');
+  final curEnv = getEnvironment(envKey);
   EnvConfig.curEnv = curEnv;
+  log('curEnv: $curEnv');
   await Firebase.initializeApp(
     options: firebaseOptions(curEnv),
   );
@@ -40,17 +46,37 @@ class MyHomePage extends StatelessWidget {
     required this.env,
   });
   final String env;
+
   @override
   Widget build(BuildContext context) {
+    CollectionReference envCollection =
+        FirebaseFirestore.instance.collection(env.toLowerCase());
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text('Environment: $env'),
       ),
       body: Center(
-        child: Text(
-          env,
-          style: Theme.of(context).textTheme.headlineLarge,
+        child: FutureBuilder(
+          future: envCollection.doc('constants').get(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return const Text("Something went wrong");
+            }
+
+            if (snapshot.hasData && !snapshot.data!.exists) {
+              return const Text("Document does not exist");
+            }
+
+            if (snapshot.connectionState == ConnectionState.done) {
+              Map<String, dynamic> data =
+                  snapshot.data!.data() as Map<String, dynamic>;
+              return Text("Firebase Env Name: ${data['title']}");
+            }
+
+            return const CircularProgressIndicator.adaptive();
+          },
         ),
       ),
     );

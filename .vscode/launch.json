@@ -28,10 +28,10 @@
             "name": "prod",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release",
+            "flutterMode": "debug",
             "args": [
                 "--flavor",
-                "test"
+                "prod"
             ]
         }
     ]
