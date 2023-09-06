@@ -16,6 +16,8 @@ dependencies:
   flutter_config: ^2.0.2
   cloud_firestore: ^4.9.1
   firebase_crashlytics: ^3.3.5
+  firebase_analytics: ^10.4.5
+  firebase_remote_config: ^4.2.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
