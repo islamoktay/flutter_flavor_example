@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,16 +7,19 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_config/flutter_config.dart';
 
 import 'package:flutter_flavor_example/config/env/env.dart';
 import 'package:flutter_flavor_example/config/env/env_config.dart';
 import 'package:flutter_flavor_example/config/env/env_keys.dart';
 import 'package:flutter_flavor_example/config/firebase/firebase_options.dart';
-import 'package:flutter_flavor_example/crashlytics_service.dart';
+import 'package:flutter_flavor_example/services/crashlytics_service.dart';
+import 'package:flutter_flavor_example/services/remote_config_service.dart';
+import 'package:flutter_flavor_example/services/url_service.dart';
+import 'package:flutter_flavor_example/services/version_control/repo/version_control_repo.dart';
 
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables();
   final envKey = FlutterConfig.get(EnvKeys.environment);
@@ -25,6 +29,8 @@ Future<void> main() async {
     options: firebaseOptions(curEnv),
   );
   await CrashlyticsService().setup();
+  await RemoteConfigService().activate();
+
   if (!kDebugMode) {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   }
@@ -41,27 +47,77 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MyHomePage(env: EnvConfig.curEnv.label),
+      home: MyHomePage(env: EnvConfig.curEnv),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({
     super.key,
     required this.env,
   });
-  final String env;
+  final Env env;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => checkVersion(context),
+    );
+  }
+
+  checkVersion(BuildContext context) async {
+    final isForceUpdateRequired =
+        await VersionControlRepo(curEnv: widget.env).check();
+
+    if (isForceUpdateRequired && context.mounted) {
+      await showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Update available'),
+            content: const Text('Please update application'),
+            actions: [
+              TextButton(
+                onPressed: () async {
+                  String storeUrlKey;
+
+                  if (Platform.isIOS) {
+                    storeUrlKey = widget.env.iosForceUpdateUrl;
+                  } else if (Platform.isAndroid) {
+                    storeUrlKey = widget.env.androidForceUpdateUrl;
+                  } else {
+                    storeUrlKey = "";
+                  }
+                  final String remoteValue =
+                      FirebaseRemoteConfig.instance.getString(storeUrlKey);
+                  await UrlService().launchUrl(remoteValue);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     CollectionReference envCollection =
-        FirebaseFirestore.instance.collection(env.toLowerCase());
+        FirebaseFirestore.instance.collection(widget.env.label.toLowerCase());
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Environment: $env'),
+        title: Text('Environment: ${widget.env.label}'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
